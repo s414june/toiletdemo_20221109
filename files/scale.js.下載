@@ -1,0 +1,97 @@
+﻿$(function () {
+    var eleImg = document.querySelector('.map-outside');
+
+    var store = {
+        scale: 1
+    };
+    if (eleImg == null) return
+    // 縮放事件的處理
+    eleImg.addEventListener('touchstart', function (event) {
+        var touches = event.touches;
+        var events = touches[0];
+        var events2 = touches[1];
+
+        event.preventDefault();
+
+        // 第一個觸控點的座標
+        store.pageX = events.pageX;
+        store.pageY = events.pageY;
+
+        store.moveable = true;
+
+        if (events2) {
+            store.pageX2 = events2.pageX;
+            store.pageY2 = events2.pageY;
+        }
+
+        store.originScale = store.scale || 1;
+    });
+    document.addEventListener('touchmove', function (event) {
+        if (!store.moveable) {
+            return;
+        }
+
+        event.preventDefault();
+
+        var touches = event.touches;
+        var events = touches[0];
+        var events2 = touches[1];
+        // 雙指移動
+        if (events2) {
+            // 第2個指頭座標在touchmove時候獲取
+            if (!store.pageX2) {
+                store.pageX2 = events2.pageX;
+            }
+            if (!store.pageY2) {
+                store.pageY2 = events2.pageY;
+            }
+
+            // 獲取座標之間的舉例
+            var getDistance = function (start, stop) {
+                return Math.hypot(stop.x - start.x, stop.y - start.y);
+            };
+            // 雙指縮放比例計算
+            var zoom = getDistance({
+                x: events.pageX,
+                y: events.pageY
+            }, {
+                    x: events2.pageX,
+                    y: events2.pageY
+                }) /
+                getDistance({
+                    x: store.pageX,
+                    y: store.pageY
+                }, {
+                        x: store.pageX2,
+                        y: store.pageY2
+                    });
+            // 應用在元素上的縮放比例
+            var newScale = store.originScale * zoom;
+            // 最小縮放比例限制
+            if (newScale < 1) {
+                newScale = 1;
+            }
+            // 最大縮放比例限制
+            if (newScale > 3) {
+                newScale = 3;
+            }
+            // 記住使用的縮放值
+            store.scale = newScale;
+            // 影象應用縮放效果
+            eleImg.style.transform = 'scale(' + newScale + ')';
+        }
+    });
+
+    document.addEventListener('touchend', function () {
+        store.moveable = false;
+
+        delete store.pageX2;
+        delete store.pageY2;
+    });
+    document.addEventListener('touchcancel', function () {
+        store.moveable = false;
+
+        delete store.pageX2;
+        delete store.pageY2;
+    });
+})

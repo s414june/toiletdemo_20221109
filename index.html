@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!-- saved from url=(0103)https://toiletmirror.azurewebsites.net/BsPages/MirrorPages/People.aspx?CUST_TYPE=41&&Location=1&&Room=0 -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+        魔鏡
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description">
+    <meta name="author">
+    <link href="./files/bootstrap.min.css" rel="stylesheet">
+    <script src="./files/bootstrap.min.js"></script>
+    <script src="./files/baomitu.js"></script>
+    <link href="./files/googleapis.css" rel="stylesheet">
+    <link rel="stylesheet" href="./files/normal.css">
+    <script src="./files/tstiAjax.js"></script>
+    <script src="./files/TstiCommon.js"></script>
+    <script src="./files/tstiTable.js"></script>
+    <script src="./files/tstiValidation.js"></script>
+
+
+
+
+
+    <title>其他地點地圖</title>
+    <style>
+        .map-outside {
+            /*background-image: url('/Resources/MirrorIot/img/no_location_picture_view.jpg');*/
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            min-width: calc(100vw - 43.75vw - 100vh/5 + 2em);
+            max-width: calc(100% - 100vh/5 + 2em);
+            height: 100vh;
+            /*position: absolute;*/
+            flex-grow: 1;
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            /*margin-left: calc(100vh/5 - 2em);*/
+        }
+
+        /*#map {
+            width: 100%;
+        }*/
+
+        /*.people-iframe {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }*/
+
+        .tab-outside {
+            z-index: 1;
+        }
+
+        #googleMap {
+            width: calc(100% + 300px);
+            height: calc(100% + 300px);
+            border: 0;
+        }
+
+        p,
+        span {
+            z-index: 2;
+        }
+    </style>
+
+    <script>
+        var _basePath = '/BsPages/MirrorPages/People.aspx'; //執行路徑
+        $(function () {
+            //queryMaster();
+        })
+        function GETURLQUERY(url) {
+            //var CUST_TYPE= url.searchParams.get('CUST_TYPE');           
+            //var Location = url.searchParams.get('Location');
+            //var Room = url.searchParams.get('Room');
+            let CUST_TYPE = localStorage.getItem("CUST_TYPE");
+            let Location = localStorage.getItem("Location");
+            let Room = localStorage.getItem("Room");
+            if (!(isNumber(CUST_TYPE) && isNumber(Location) && isNumber(Room))) {
+                window.location.href = '/BsPages/MirrorPages/LocationSetting.aspx';
+            }
+            else {
+                return true;
+            }
+        }
+
+        function isNumber(val) {
+            var regPos = /^\+?[0-9][0-9]*$/; //判斷數字　為正整數
+            if (regPos.test(val)) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        //function queryMaster() {
+        //    let CUST_TYPE = localStorage.getItem("CUST_TYPE");
+        //    let Location = localStorage.getItem("Location");
+        //    let Room = localStorage.getItem("Room");
+        //    ajaxSend('CreateMenuHtml', "&CUST_TYPE=" + CUST_TYPE+"&Location=" + Location+"&Room=" + Room, queryAfter);
+        //}
+        //function queryAfter(obj) {
+        //    if (obj["returnStatus"] == "false") {
+        //        showMsg(obj["errorMessage"]);
+        //        return false;
+        //    } else {
+        //        var data = JSON.parse(obj['data']);
+        //        console.log(data)
+        //    }
+        //}
+    </script>
+    <style>
+        body {
+            user-select: none;
+            touch-action: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="w-100 d-flex vh-100">
+        <div class="d-flex">
+            <div class="vh-100 tab-outside tab-fill" id="MIRROR_TAB">
+
+                <a id="homepagePage"
+                    href="https://toiletmirror.azurewebsites.net/BsPages/MirrorPages/HomePage.aspx?CUST_TYPE=41&amp;&amp;Location=1&amp;&amp;Room=0">
+                    <div class="tab">
+                        <img src="./files/homepage.svg" alt="homepage">
+                    </div>
+                </a><a id="peoplePage"
+                    href="https://toiletmirror.azurewebsites.net/BsPages/MirrorPages/People.aspx?CUST_TYPE=41&amp;&amp;Location=1&amp;&amp;Room=0">
+                    <div class="tab tab-choosed">
+                        <img src="./files/people.svg" alt="people">
+                    </div>
+                </a><a id="dashboardPage"
+                    href="https://toiletmirror.azurewebsites.net/BsPages/MirrorPages/DashBoard.aspx?CUST_TYPE=41&amp;&amp;Location=1&amp;&amp;Room=0">
+                    <div class="tab">
+                        <img src="./files/dashboard.svg" alt="dashboard">
+                    </div>
+                </a><a id="scorePage"
+                    href="https://toiletmirror.azurewebsites.net/BsPages/MirrorPages/Score.aspx?CUST_TYPE=41&amp;&amp;Location=1&amp;&amp;Room=0">
+                    <div class="tab">
+                        <img src="./files/score.svg" alt="score">
+                    </div>
+                </a><a id="fixPage"
+                    href="https://toiletmirror.azurewebsites.net/BsPages/MirrorPages/Fix.aspx?CUST_TYPE=41&amp;&amp;Location=1&amp;&amp;Room=0">
+                    <div class="tab">
+                        <img src="./files/fix.svg" alt="fix">
+                    </div>
+                </a>
+                <div id="haspeopleiframePage" style="display: none;"></div>
+            </div>
+        </div>
+        <div class="section d-flex align-items-center justify-content-between">
+
+            <div class="d-flex vh-100 justify-content-center" style="width: calc(100vw - 100vh/5 + 2em);">
+                <div class="position-relative w-100">
+                    <img src="./files/toilet-man.jpg" alt="" style="width: 100%;height:fit-content;">
+                    <div class="occupy blink" style="width:17.7%; height:20.7%;top: 5%;left: 20.2%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .blink {
+            animation: blink 1s linear infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+        .occupy{
+            position: absolute;
+            background-color: rgba(255, 0, 0, 0.5);
+        }
+    </style>
